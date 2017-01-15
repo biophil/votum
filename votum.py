@@ -18,9 +18,9 @@ if __name__ == '__main__':
                 pending_votes[block][voter] = {postid:weight}
                 break
 
-    wsnode = "ws://127.0.0.1:8090"    # "wss://node.steem.ws"
+    wsnode = "wss://node.steem.ws"    # "wss://node.steem.ws"
     ws = create_connection(wsnode)
-    with open("votum_config.yml", "r") as config_file:
+    with open("../votumLocal/votum_config.yml", "r") as config_file:
         config = yaml.load(config_file)
         account_info = config["account_info"]
         voting_rule = config["voting_rule"]
@@ -33,7 +33,7 @@ if __name__ == '__main__':
             rule_tag = voting_rule["tag"]
         if voting_rule["reputation"] is not None:
             rule_reputation = voting_rule["reputation"]
-    with open("votum_log.yml", "r") as log_file:
+    with open("../votumLocal/votum_log.yml", "r") as log_file:
         log = yaml.load(log_file)
         last_block = log["last_block"]
         if log["pending"] is None:
@@ -142,11 +142,11 @@ if __name__ == '__main__':
             log["last_block"] = last_block
             log["pending"] = pending_votes
             log["complete"] = complete_votes
-            with open("votum_log.yml", "w") as log_file:
+            with open("../votumLocal/votum_log.yml", "w") as log_file:
                 yaml.dump(log, log_file, default_flow_style=False)
             last_block += 1
         else:
-            with open("votum_config.yml", "r") as config_file:
+            with open("../votumLocal/votum_config.yml", "r") as config_file:
                 config = yaml.load(config_file)
                 account_info = config["account_info"]
                 voting_rule = config["voting_rule"]
