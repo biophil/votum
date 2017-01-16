@@ -139,7 +139,7 @@ if __name__ == '__main__':
                     pending_votes.pop(i, None)
                 else:
                     break
-            print(str(last_block) + "  " + res["result"]["timestamp"] + "\r", end="")
+            print(str(last_block) + "  " + res["result"]["timestamp"] + "\r", end="\n")
             log["last_block"] = last_block
             log["pending"] = pending_votes
             log["complete"] = complete_votes
