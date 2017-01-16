@@ -5,7 +5,7 @@ import math
 import yaml
 import websocket
 from websocket import create_connection
-from steem import Steem
+from piston.steem import Steem
 
 if __name__ == '__main__':
     def vote_reserve(block, voter, postid, weight):
@@ -85,15 +85,16 @@ if __name__ == '__main__':
                                                 vote_block = last_block + int(rule_tag[t][v]["delay"]/3)
                                                 weight = rule_tag[t][v]["weight"]
                                                 vote_reserve(vote_block, v, postid, weight)
-                                elif rep >= min(rule_reputation):
-                                    for r in sorted(rule_reputation):
-                                        if rep >= r:
-                                            for v in rule_reputation[r]:
-                                                vote_block = last_block + int(rule_reputation[r][v]["delay"]/3)
-                                                weight = rule_reputation[r][v]["weight"]
-                                                vote_reserve(vote_block, v, postid, weight)
-                                        else:
-                                            break
+                                elif bool(rule_reputation) : # if rule_reputation is not empty
+                                    if rep >= min(rule_reputation):
+                                        for r in sorted(rule_reputation):
+                                            if rep >= r:
+                                                for v in rule_reputation[r]:
+                                                    vote_block = last_block + int(rule_reputation[r][v]["delay"]/3)
+                                                    weight = rule_reputation[r][v]["weight"]
+                                                    vote_reserve(vote_block, v, postid, weight)
+                                            else:
+                                                break
                         if txtype == "vote":
                             voter = o[1]["voter"]
                             postid = "@"+o[1]["author"]+"/"+o[1]["permlink"]
